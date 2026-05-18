@@ -3,44 +3,38 @@
 #include <string>
 #include "ships.hpp"
 #include <algorithm>
+#include<memory>
 
 class Fleet
 {
 private:
-    std::vector<Ship *> ships;
+    std::vector<std::unique_ptr<Ship>> ships;
     int jäger = 0;
     int zerstörer = 0;
     int kreuzer = 0;
 
 public:
-    void addShip(Ship *ship)
-    {
-        ships.push_back(ship);
-    }
 
-    void removeShip (Ship *ship)
-    {
 
-    }
-    void setShips(int xJäger, int xZerstörer, int xKreuzer, Fleet &f)
+    void setShips(int xJäger, int xZerstörer, int xKreuzer)
     {
         for (int i = 0; i < xJäger; ++i)
         {
-            f.addShip(new Jäger());
+            ships.push_back(std::make_unique<Jäger>());
             ++jäger;
         }
         for (int i = 0; i < xZerstörer; ++i)
         {
-            f.addShip(new Zerstörer());
+            ships.push_back(std::make_unique<Zerstörer>());
             ++zerstörer;
         }
         for (int i = 0; i < xKreuzer; ++i)
         {
-            f.addShip(new Kreuzer());
+            ships.push_back(std::make_unique<Kreuzer>());
             ++kreuzer;
         }
     }
-    std::vector<Ship *> &getShips()
+    std::vector<std::unique_ptr<Ship>> &getShips()
     {
         return ships;
     }
@@ -64,5 +58,24 @@ public:
             std::cout << f.getShips()[i]->getInfo() << " " << f.getShips()[i]->gethp() << std::endl;
 
         std::cout << std::endl;
+    }
+
+    void checkDelete () 
+    {
+        for(int i = 0; i < ships.size(); i++)
+        {
+            if(ships[i]->gethp() <= 0)
+            {
+                ships.erase(ships.begin() + i);
+            }
+        }
+    }
+    bool checkEmpty()
+    {
+        if(ships.size() == 0)
+        {
+            return true;
+        }
+        return false;
     }
 };
