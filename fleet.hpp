@@ -20,7 +20,7 @@ public:
 
     void removeShip (Ship *ship)
     {
-        ships.erase(find(ships.begin(), ships.end()), ship);
+
     }
     void setShips(int xJäger, int xZerstörer, int xKreuzer, Fleet &f)
     {
