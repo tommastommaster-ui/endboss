@@ -2,22 +2,16 @@
 #include "fleet.hpp"
 #include <string>
 #include <vector>
+#include <unistd.h>
 int main()
 {
-    Jäger();
-    Kreuzer();
-    Zerstörer();
+    srand(time(0));
     Fleet a;
     Fleet b;
 
     int jäger = 0;
     int zerstörer = 0;
     int kreuzer = 0;
-    bool fleet2 = false;
-
-    while (fleet2)
-    {
-    }
 
     do
     {
@@ -30,18 +24,7 @@ int main()
         std::cin >> kreuzer;
     } while (jäger + zerstörer + kreuzer > 10 || jäger + zerstörer + kreuzer < 1);
 
-    for (int i = 0; i < jäger; i++)
-    {
-        a.addShip(new Jäger());
-    }
-    for (int i = 0; i < zerstörer; i++)
-    {
-        a.addShip(new Zerstörer());
-    }
-    for (int i = 0; i < kreuzer; i++)
-    {
-        a.addShip(new Kreuzer());
-    }
+    a.setShips(jäger, zerstörer, kreuzer, a);
 
     zerstörer = 0;
     kreuzer = 0;
@@ -57,27 +40,87 @@ int main()
         std::cin >> kreuzer;
     } while (jäger + zerstörer + kreuzer > 10 || jäger + zerstörer + kreuzer < 1);
 
-    for (int i = 0; i < jäger; i++)
+    b.setShips(jäger, zerstörer, kreuzer, b);
+
+    // print
+    a.print(a);
+    b.print(b);
+
+    int SizeA = a.getShips().size();
+    int SizeB = b.getShips().size();
+
+    // std::cout << SizeA << std::endl;
+    // std::cout << a.getShips()[0]->getInfo() << std::endl;
+
+    int fleetAShip = 0;
+    int fleetBShip = 0;
+    bool switchFleet = false;
+
+    while (true)
     {
-        b.addShip(new Jäger());
-    }
-    for (int i = 0; i < zerstörer; i++)
-    {
-        b.addShip(new Zerstörer());
-    }
-    for (int i = 0; i < kreuzer; i++)
-    {
-        b.addShip(new Kreuzer());
+        int RealTimeSizeA = a.getShips().size();
+        int RealTimeSizeB = b.getShips().size();
+
+        int randomNum = rand() % 10 + 1;
+
+        std::cout << randomNum << std::endl;
+
+        Ship *targetB = b.getShips()[fleetBShip];
+        Ship *targetA = a.getShips()[fleetAShip];
+
+        if (!switchFleet)
+        {
+            std::cout << "Random Number: " << randomNum << std::endl;
+            std::cout << "Fleet A Ship: " << targetA->getInfo() << " Attacking " << targetB->getInfo() << std::endl;
+            if (randomNum >= targetB->getSize())
+            {
+                targetB->takeDamage(targetB->getDamage());
+                std::cout << "Hit!!!" << std::endl;
+            }
+            else
+            {
+                std::cout << "No Hit!" << std::endl;
+            }
+            if (fleetAShip == RealTimeSizeA -1)
+            {
+                fleetAShip = 0;
+            }
+            else
+            {
+                fleetAShip++;
+            }
+
+            switchFleet = true;
+        }
+        else
+        {
+            std::cout << "Random Number: " << randomNum << std::endl;
+            std::cout << "Fleet B Ship: " << targetB->getInfo() << " Attacking " << targetA->getInfo() << std::endl;
+            if (randomNum >= targetA->getSize())
+            {
+                targetA->takeDamage(targetA->getDamage());
+                std::cout << "Hit!!!" << std::endl;
+            }
+            else
+            {
+                std::cout << "No Hit!" << std::endl;
+            }
+
+            if (fleetBShip == RealTimeSizeB -1)
+            {
+                fleetBShip=0;
+            }
+            else
+            {
+                fleetBShip++;
+            }
+
+            switchFleet = false;
+        }
+        a.print(a);
+        b.print(b);
+        sleep(2);
     }
 
-    for (int i = 0; i < a.getShips().size(); i++)
-    {
-        std::cout << a.getShips()[i]->gethp() << std::endl;
-    }
-    std::cout << std::endl;
-    for (int i = 0; i < b.getShips().size(); i++)
-    {
-        std::cout << b.getShips()[i]->gethp() << std::endl;
-    }
     return 0;
 }
