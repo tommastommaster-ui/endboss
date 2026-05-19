@@ -49,6 +49,7 @@ int main()
             int dmg = attacker->getDamage(randomNum);
             attacker->takeDamage(dmg);
             std::cout << "Hit!!!" << std::endl;
+            randomNum = rand() % 10 + 1;
             if (attacker->extraAttack())
             {
                 int i = 1;
@@ -85,7 +86,7 @@ int main()
 
         int &currentFleet = switchFleet ? fleetAShip : fleetBShip;
 
-        if (currentFleet <= (switchFleet ? RealTimeSizeA - 1 : RealTimeSizeB - 1))
+        if (currentFleet >= (switchFleet ? RealTimeSizeA - 1 : RealTimeSizeB - 1))
         {
             currentFleet = 0;
         }
