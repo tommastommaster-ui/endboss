@@ -3,8 +3,7 @@
 #include <iostream>
 #include <string>
 
-//Fragen wozu das in jäger dann noch ship:: s,h,d, name ???
-
+// Fragen wozu das in jäger dann noch ship:: s,h,d, name ???
 
 class Ship
 {
@@ -24,7 +23,7 @@ public:
         damage = d;
         shipName = name;
 
-        //std::cout << "size:" << size << " damage" << damage << " hp" << hp << std::endl;
+        // std::cout << "size:" << size << " damage" << damage << " hp" << hp << std::endl;
     }
     std::string getInfo()
     {
@@ -35,13 +34,13 @@ public:
     {
         return hp;
     }
-    
+
     int getSize()
     {
         return size;
     }
 
-    int getDamage()
+    virtual int getDamage(int randomNum)
     {
         return damage;
     }
@@ -51,49 +50,75 @@ public:
         return damageSpecial;
     }
 
-    int takeDamage(int dam)
+    virtual int takeDamage(int dam)
     {
         return hp -= dam;
     }
-    virtual bool specialAttack(int randomNum)
+
+    virtual bool extraAttack()
     {
         return false;
+    }
+
+    virtual int getHitBonus(int size)
+    {
+        return size;
     }
 };
 
 class Jäger : public Ship
 {
 public:
-    Jäger(int s = 4, int h = 75, int d = 30, std::string name = "Jäger") : Ship(s,h,d, name)
-    { }
-    bool specialAttack(int randomNum) override 
+    Jäger(int s = 4, int h = 75, int d = 30, std::string name = "Jäger") : Ship(s, h, d, name)
     {
-        if(randomNum > 8)
-        {
-            return true;
-        }
-        return false;
-    }
-    int getDamageSpecial() override
-    {
-        damageSpecial = 60;
-        return damageSpecial;
     }
 
+    int getDamage(int randomNum) override
+    {
+        if (randomNum >= 9)
+        {
+            std::cout << "Mega Hit!!!" << std::endl;
+            return damage * 2;
+        }
+        else
+        {
+            return damage;
+        }
+    }
 };
 
 class Kreuzer : public Ship
 {
 public:
-    Kreuzer(int s =6, int h=150, int d=50, std::string name = "Kreuzer") : Ship(s,h,d, name)
-    { }
+    Kreuzer(int s = 6, int h = 150, int d = 50, std::string name = "Kreuzer") : Ship(s, h, d, name)
+    {
+    }
+
+    bool extraAttack() override
+    {
+        return true;
+    }
 };
 
 class Zerstörer : public Ship
 {
 public:
-    Zerstörer(int s=8, int h=250, int d=60, std::string name = "Zerstörer") : Ship(s,h,d, name)
-    { }
+    Zerstörer(int s = 8, int h = 250, int d = 60, std::string name = "Zerstörer") : Ship(s, h, d, name)
+    {
+    }
+
+    int getHitBonus(int size) override
+    {
+        int randomNum = rand() % 3 + 1;
+        if (randomNum == 1)
+        {
+            int newSize = size-2;
+            std::cout << "Size reduction " << size << " : " << newSize << std::endl;
+            return size - 2;
+        }
+        else
+        {
+            return size;
+        }
+    }
 };
-
-

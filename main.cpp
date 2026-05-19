@@ -7,8 +7,8 @@
 int main()
 {
     srand(time(0));
-    Fleet a;
-    Fleet b;
+    Fleet a("A");
+    Fleet b("B");
     bool game = true;
 
     int jäger = 0;
@@ -45,8 +45,8 @@ int main()
     b.setShips(jäger, zerstörer, kreuzer);
 
     // print
-    a.print(a);
-    b.print(b);
+    a.print();
+    b.print();
 
     int SizeA = a.getShips().size();
     int SizeB = b.getShips().size();
@@ -74,23 +74,37 @@ int main()
 
         int randomNum = rand() % 10 + 1;
 
-        std::cout << randomNum << std::endl;
 
         auto &targetB = b.getShips()[fleetBShip];
         auto &targetA = a.getShips()[fleetAShip];
 
         if (!switchFleet)
         {
+            std::cout << "ATTACKING -> Fleet A Ship: " << fleetAShip + 1 << " " << targetA->getInfo() << " Attacking Fleet B Ship: " << fleetBShip + 1 << " " << targetB->getInfo() << std::endl;
             std::cout << "Random Number: " << randomNum << std::endl;
-            std::cout << "Fleet A Ship: " << targetA->getInfo() << " Attacking " << targetB->getInfo() << std::endl;
-            if (randomNum >= targetB->getSize())
+            int bSize = targetB->getSize();
+            bSize = targetA->getHitBonus(bSize);
+            if (randomNum >= bSize)
             {
-                targetB->takeDamage(targetA->getDamage());
+                int dmg = targetA->getDamage(randomNum);
+                targetB->takeDamage(dmg);
                 std::cout << "Hit!!!" << std::endl;
+                randomNum = rand() % 10 + 1;
+                if (targetA->extraAttack())
+                {
+                    int i = 1;
+                    while (bSize >= randomNum)
+                    {
+                        targetB->takeDamage(dmg);
+                        randomNum = rand() % 10 + 1;
+                        std::cout << "Extra Attack Times:" << i << std::endl;
+                        i++;
+                    }
+                }
             }
             else
             {
-                std::cout << "No Hit!" << std::endl;
+                std::cout << "No Hit!!!" << std::endl;
             }
             if (fleetAShip == RealTimeSizeA - 1)
             {
@@ -105,25 +119,31 @@ int main()
         }
         else
         {
+            std::cout << "ATTACKING -> Fleet B Ship: " << fleetBShip + 1 << " " << targetB->getInfo() << " Attacking Fleet A Ship: " << fleetAShip + 1 << " " << targetA->getInfo() << std::endl;
             std::cout << "Random Number: " << randomNum << std::endl;
-            std::cout << "Fleet B Ship: " << targetB->getInfo() << " Attacking " << targetA->getInfo() << std::endl;
-            if (randomNum >= targetA->getSize())
+            int aSize = targetA->getSize();
+            aSize = targetB->getHitBonus(aSize);
+            if (randomNum >= aSize)
             {
-                if(targetB->specialAttack(randomNum))
+                int dmg = targetB->getDamage(randomNum);
+                targetA->takeDamage(dmg);
+                std::cout << "Hit!!!" << std::endl;
+                randomNum = rand() % 10 + 1;
+                if (targetB->extraAttack())
                 {
-                    targetA->takeDamage(targetB->getDamageSpecial());
-                    std::cout << "MEGA HIT" << std::endl;
+                    int i = 1;
+                    while (aSize >= randomNum)
+                    {
+                        targetA->takeDamage(dmg);
+                        randomNum = rand() % 10 + 1;
+                        std::cout << "Extra Attack Times:" << i << std::endl;
+                        i++;
+                    }
                 }
-                else{
-                    targetA->takeDamage(targetB->getDamage());
-                    std::cout << "Hit!!!" << std::endl;
-                }
-                
-                
             }
             else
             {
-                std::cout << "No Hit!" << std::endl;
+                std::cout << "No Hit!!!" << std::endl;
             }
 
             if (fleetBShip == RealTimeSizeB - 1)
@@ -140,23 +160,24 @@ int main()
         a.checkDelete();
         b.checkDelete();
 
-        std::cout << "Fleet A: ";
-        a.print(a);
-        std::cout << "Fleet B: ";
-        b.print(b);
+        a.print();
+        b.print();
+        
+
         if (a.checkEmpty())
         {
-            std::cout << "Fleet B has won!!!";
+            std::cout << "\nFleet B has won!!!"<< std::endl;
             game = false;
         }
         if (b.checkEmpty())
         {
-            std::cout << "Fleet A has won!!!";
+            std::cout << "\nFleet A has won!!!"<< std::endl;
             game = false;
         }
-        //std::cout << fleetAShip << "A" << RealTimeSizeA << std::endl;
-        //std::cout << fleetBShip << "B" << RealTimeSizeB << std::endl;
-        //sleep(1);
+        std::cout << "###############################################################\n" << std::endl;
+        // std::cout << fleetAShip << "A" << RealTimeSizeA << std::endl;
+        // std::cout << fleetBShip << "B" << RealTimeSizeB << std::endl;
+        // sleep(1);
     }
 
     // Heute noch gemacht werden muss wernn schiff 0 hat muss er raus

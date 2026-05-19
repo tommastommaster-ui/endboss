@@ -4,6 +4,7 @@
 #include "ships.hpp"
 #include <algorithm>
 #include<memory>
+#include <string>
 
 class Fleet
 {
@@ -12,9 +13,14 @@ private:
     int jäger = 0;
     int zerstörer = 0;
     int kreuzer = 0;
+    std::string name;
 
 public:
 
+    Fleet(std::string nameFleet)
+    {
+        name = nameFleet;
+    }
 
     void setShips(int xJäger, int xZerstörer, int xKreuzer)
     {
@@ -51,13 +57,19 @@ public:
     {
         return zerstörer;
     }
-    void print(Fleet &f)
+    void print()
     {
-        std::cout << "Fleet A: " << "Jäger " << f.getSumJäger() << " Zerstörer " << f.getSumZerstöerer() << " Kreuzerer " << f.getSumKreuzer() << std::endl;
-        for (int i = 0; i < f.getShips().size(); i++)
-            std::cout << f.getShips()[i]->getInfo() << " " << f.getShips()[i]->gethp() << std::endl;
+        std::cout << "Fleet " << name << " Jäger "  << getSumJäger() << " Zerstörer " << getSumZerstöerer() << " Kreuzerer " << getSumKreuzer() << std::endl;
+        if(getShips().size() == 0)
+        {
+            std::cout<< "No more Ships" << std::endl;
+            return;
+        }
+        for (int i = 0; i < getShips().size(); i++)
+            std::cout << i + 1 << " " << getShips()[i]->getInfo() << " HP: " << getShips()[i]->gethp() << std::endl;
 
-        std::cout << std::endl;
+        std::cout << "\n" << std::endl;
+        
     }
 
     void checkDelete () 
