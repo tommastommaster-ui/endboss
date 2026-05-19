@@ -1,0 +1,173 @@
+Objektorientiertes Programmieren
+¨
+Ubungsbeispiele
+1 Neuromancer / Flottenkampf
+W¨ahlen Sie entweder das Thread-Beispiel Neuromancer, bei dem mehrere Hacker, dargestellt
+durch Threads versuchen, einen sich wehrenden Server anzugreifen oder das st¨arker objekto-
+rientierte Beispiel Flottenkampf, in dem zwei Personen zuerst ihre Flotten zusammenstellen
+und diese dann durch den Computer gesteuert gegeneinander antreten lassen k¨onnen und
+implementieren Sie eines von beiden.
+Folgende Punkte m¨ussen dabei beachtet werden:
+• Verwenden Sie Threads und Mutexes, um eine fehlerfreie Parallelit¨at zu gew¨ahrleisten,
+falls Sie das Thread-Beispiel w¨ahlen.
+• Verwenden Sie f¨ur Datenstrukturen Klassen der STL.
+• Nutzen Sie Interfaces als Elternklassen und Polymorphismus f¨ur Ihre Objekte.
+• Verwenden Sie sinnvolle Klassen. Beachten Sie dabei die richtige Verwendung von Zu-
+griffsmodifikatoren, Gettern/Settern, den verschiedenen Konstruktoren und Destruk-
+toren sowie der sinnvollen Strukturierung von Funktionen und Daten. Bilden Sie Ihre
+Klassen in einem entsprechenden Diagramm ab.
+•¨
+Uberpr¨ufen Sie alle Parameter¨ubergaben an Funktionen und Benutzereingaben auf
+Fehler und verhindern Sie so, dass Ihr Programm bei ung¨ultigen Eingaben nicht mehr
+richtig funktioniert, Eingaben sollen so lange wiederholt werden, bis sie korrekt sind und
+der Spielfluss erst dann fortgesetzt werden. Verwenden Sie zur Fehlerbehandlung
+Exceptions.
+• Testen Sie Ihren Code ausgiebig und ber¨ucksichtigen Sie Randbedingungen.
+Neuromancer - Stufe 1
+F¨unf durch Threads dargestellte Hacker attackieren einen Server und m¨ussen seine Vertei-
+digung durchbrechen, um an Punkte zu kommen und den Server zu destabilisieren. Dabei
+k¨onnen sie aber auch Schaden erleiden und sterben. Es gewinnt entweder der Server, wenn
+alle Hacker eliminiert wurden oder der Hacker mit den meisten Punkten, sobald der Server
+1
+zerst¨ort wurde.
+Hacker und Server haben folgende Eigenschaften: Ein Hacker hat einen Lebenspunktewert
+(100), einen Angriffswert (20) und einen Punktewert (0), ein Server hat einen Lebenspunk-
+tewert (100) und f¨unf Verteidigungszonen. Jede Zone hat einen Verteidigungswert (20) und
+einen Druckwert (0).
+Ein Hacker-Thread startet seinen Angriff und f¨uhrt ihn dann solange fort, bis entweder seine
+oder die Lebenspunkte des Servers unter 1 sinken. Der Hacker w¨ahlt zu Beginn eine der f¨unf
+Zonen des Servers aus und attackiert dann diese. Bei einem Angriff besteht eine Chance von
+1%, dass der Hacker einen Fehler gemacht hat, dadurch 5 Lebenspunkte verliert und sein
+Angriff abgebrochen wird.
+Ansonsten setzt der Hacker seinen Angriff fort und es wird bestimmt, ob die angegriffene
+Verteidigungszone durchbrochen wird. Dazu wird ¨uberpr¨uft, ob der Angriffswert des Hackers
+plus dem Druckwert der Zone gr¨oßer als der Verteidigungswert der Zone ist:
+Angriffswert des Hackers + Druckwert der Zone > Verteidigungswert der Zone
+Ist das der Fall, hat der Hacker die Verteidigung ¨uberwunden. Der Server reagiert nun, indem
+er folgende Schritte durchf¨uhrt:
+1. Der Server verliert einen Lebenspunkt.
+2. Die Differenz zwischen der Summe des Angriffswerts des Hackers und dem Druckwert
+der Zone sowie dem Verteidigungswert der Zone wird berechnet.
+3. Der Druckwert der Zone wird auf 0 gesetzt.
+4. Der Verteidigungswert der Zone wird um 3 erh¨oht. Mit dem Wert der Erh¨ohung k¨onnen
+Sie den Schwierigkeitsgrad festlegen, je h¨oher der Wert, desto schwerer wird es f¨ur die
+Hacker. Ab einem Wert von 4 oder 5 sollte es den Hackern nicht mehr m¨oglich sein,
+mit einer zuf¨alligen Strategie zu gewinnen.
+5. Es werden so lange einzelne Verteidigungswerte von anderen Zonen des Servers zur
+angegriffenen Zone umgeschichtet (durch ++ und−−) und dabei bei jeder Umschich-
+tung die Differenz aus Schritt 2 um eins gesenkt, bis die Differenz gleich 0 ist. Dabei
+darf der Verteidigungswert einer Zone nicht unter 1 sinken.
+Der Hacker selbst erh¨oht nun sowohl seine Punkte als auch seinen Angriffswert um jeweils 1
+und sein Angriff ist abgeschlossen.
+War der Angriff des Hackers nicht erfolgreich, also der Vergleich von Angriffswert + Druck-
+wert kleiner oder gleich dem Verteidigungswert der Zone, schl¨agt der Angriff des Hackers
+fehl. Der Hacker verliert dadurch einen Lebenspunkt und sollten seine Lebenspunkte Modulo
+10 gerechnet gleich 0 sein, verringert sich auch sein Angriffswert um 2. Weiters erh¨oht sich
+der Druckwert der angegriffenen Zone um 1 und der Angriff ist abgeschlossen.
+Sobald kein Hacker mehr lebt oder der Server zerst¨ort wurde, wird die Ausf¨uhrung beendet.
+Am Ende soll noch der Status jedes Hackers und des Servers ausgegeben werden. Geben
+Sie auch die Summe der von den Hackern gesammelten Punkte und die Lebenspunkte des
+Servers aus, da diese zusammen immer 100 ergeben m¨ussen.
+2
+Neuromancer - Stufe 2
+Statten Sie die Hacker nun mit mindestens zwei verschiedenen Strategien aus, die auch
+h¨ohere Schwierigkeitsgrade schaffbar machen. Zu Beginn soll es m¨oglich sein, jedem Hacker
+eine Strategie zuzuweisen und so gemischte Teams antreten zu lassen.
+Neuromancer - Stufe 3
+Erweitern Sie den Server nun um zwei Threads, die Agenten darstellen, die die Hacker jagen
+und ihnen Schaden zuf¨ugen k¨onnen. Wie sie das genau tun, bleibt ihnen ¨uberlassen, stellen
+sie aber auf jeden Fall sicher, dass es zu keinen race conditions kommt, wenn Agenten einen
+Hacker verwunden.
+Anforderungen Neuromancer
+• Verwendung von Threads und Mutexes zur Parallelisierung
+• Fehler¨uberpr¨ufung der Inputs
+• Erstellung eines UML-Diagramms, welches die Klassenstruktur darstellt
+• Stufe 1
+– Implementierung der Hacker, die je auf einem Thread laufen
+– Implementierung des Servers, inklusive der 5 Zonen
+– Implementierung des Angriffssystems
+– Visualisierung von Ereignissen
+– Ausgabe der Punkte bei Spielende
+• Stufe 2
+– Implementierung von mindestens 2 Strategien
+– Erstellung von Teams mit individuell ausw¨ahlbaren Strategien durch User
+• Stufe 3
+– Erg¨anzung von 2 Agenten, die auf je einem Thread laufen
+– Erstellung eines Kampfsystems zwischen Agenten und Hackern
+Flottenkampf - Stufe 1
+Zwei Flotten, bestehend aus verschiedenen Schiffen, bek¨ampfen sich gegenseitig rundenweise.
+Dabei soll der Computer die Flotten automatisiert gegeneinander antreten lassen, nachdem
+die Flotten von Personen erstellt wurden. Jedes Ereignis soll ¨uber die Konsole ausgegeben
+werden.
+Flotten bestehen aus ein bis neun Schiffen, es gibt drei verschiedene Arten von Schiffen:
+J¨ager, Zerst¨orer und Kreuzer.
+3
+Vor dem Kampf soll es m¨oglich sein, die Flotten zusammenzustellen. Alle Schiffe haben
+folgende Eigenschaften: einen H¨ullenwert, einen Gr¨oßenwert und einen Schadenswert. Die
+Spezifikationen der Schiffsarten sind folgende, wobei Sie die Werte beliebig anpassen k¨onnen,
+um eine andere Balance zu erhalten:
+Schiffstyp H¨ulle Gr¨oße Schaden Spezial
+J¨ager 75 4 30 Kritische Treffer
+Zerst¨orer 150 6 60 Zielsuchend
+Kreuzer 250 8 50 Bombardement
+Die Spezialregeln werden im Folgenden noch erkl¨art.
+Nachdem die Flotten erstellt wurden, treten sie gegeneinander an. Die folgende Abfolge
+von Aktionen wird so lange abwechselnd wiederholt, bis eine Flotte vernichtet wurde und das
+Spiel endet:
+1. Ein Schiff der eigenen Flotte wird gew¨ahlt und ein Schiff der gegnerischen Flotte als
+Ziel deklariert.
+2. Zuerst wird ein zehnseitiger W¨urfel geworfen (die Trefferprobe), wenn dessen Ergebnis
+gleich oder gr¨oßer dem Gr¨oßenwert des attackierten Schiffs ist, war der Angriff erfol-
+greich. Ansonsten wird der Angriff an dieser Stelle abgebrochen und die andere Person
+f¨uhrt einen Angriff aus.
+3. War der Angriff erfolgreich, wird der Schadenswert des angreifenden Schiffs vom
+H¨ullenwert des angegriffenen Schiffs abgezogen. Sinkt der H¨ullenwert dadurch unter
+1, wird das Schiff zerst¨ort und aus der Flotte entfernt.
+Greift zum Beispiel ein J¨ager einen Kreuzer an, wird zuerst eine Trefferprobe auf 8+ abge-
+handelt (da der Kreuzer einen Gr¨oßenwert von 8 hat). Wenn das Ergebnis eines zehnseitigen
+W¨urfelwurfs also 8 oder mehr ist, trifft der Angriff des J¨agers und der H¨ullenwert des Kreuzers
+wird um 30 verringert.
+Folgende Spezialregeln gelten f¨ur die verschiedenen Schiffe:
+• Kritische Treffer: J¨ager verursachen doppelten Schaden, wenn das Ergebnis der Tref-
+ferprobe 9 oder 10 war.
+• Bombardement: Kreuzer d¨urfen einen weiteren Angriff durchf¨uhren, wenn der erste
+erfolgreich war. Dieser Effekt kann beliebig oft in einer Aktion ausgel¨ost werden.
+• Zielsuchend: Trefferproben sind um 2 erleichtert.
+Flottenkampf - Stufe 2
+Erweitern Sie das Spiel nun um eine zweidimensionale Spielwelt, in der sich die Schiffe bewe-
+¨
+gen k¨onnen und dann ¨uber eine Distanz hinweg angreifen m¨ussen.
+Uber gr¨oßere Distanzen
+sollen die Angriffe weniger Schaden verursachen. Geben Sie nach jeder Aktion den neuen
+Zustand der Spielwelt aus.
+4
+Flottenkampf - Stufe 3
+Erm¨oglichen Sie Schiffen, Erfahrungspunkte zu sammeln und nach dem Erreichen einer gewis-
+sen Anzahl zus¨atzliche F¨ahigkeiten freizuschalten, implementieren Sie dazu f¨ur jeden Schiff-
+styp noch mindestens zwei weitere F¨ahigkeiten.
+Anforderungen Flottenkampf
+• Implementierung einer klaren Klassenstruktur mit Vererbung und Polymorphismus
+• Fehler¨uberpr¨ufung der Inputs
+• Erstellung eines UML-Diagramms, welches die Klassenstruktur darstellt
+• Stufe 1
+– Dynamische Erstellung von Flotten und Schiffen durch User
+– Ausgabe von Ereignissen
+– Erstellung einer einfachen Angriffslogik
+• Stufe 2
+– Implementierung einer 2D-Spielwelt
+– Ausgabe der Spielwelt und Schiffe
+– Implementierung der Bewegungs- und Angriffslogik der Schiffe
+• Stufe 3
+– Implementierung von Erfahrungspunkten
+– Freischalten von neuen F¨ahigkeiten bei gen¨ugend Erfahrungspunkten
+– Erweiterung von jedem Schiffstyp um mindestens zwei zus¨atzliche F¨ahigkeiten
+Bewertung
+Aspekt Bewertung
+Threads / Klassen 15%
+Mutexes / Klassenbeziehungen 10%
+Diagramm 5%
+Fehlerpr¨ufung 10%
+Stufe 1 20%
+Stufe 2 20%
+Stufe 3 20%
+5

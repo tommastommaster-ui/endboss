@@ -109,8 +109,17 @@ int main()
             std::cout << "Fleet B Ship: " << targetB->getInfo() << " Attacking " << targetA->getInfo() << std::endl;
             if (randomNum >= targetA->getSize())
             {
-                targetA->takeDamage(targetB->getDamage());
-                std::cout << "Hit!!!" << std::endl;
+                if(targetB->specialAttack(randomNum))
+                {
+                    targetA->takeDamage(targetB->getDamageSpecial());
+                    std::cout << "MEGA HIT" << std::endl;
+                }
+                else{
+                    targetA->takeDamage(targetB->getDamage());
+                    std::cout << "Hit!!!" << std::endl;
+                }
+                
+                
             }
             else
             {
@@ -147,7 +156,7 @@ int main()
         }
         //std::cout << fleetAShip << "A" << RealTimeSizeA << std::endl;
         //std::cout << fleetBShip << "B" << RealTimeSizeB << std::endl;
-        sleep(0.25);
+        //sleep(1);
     }
 
     // Heute noch gemacht werden muss wernn schiff 0 hat muss er raus

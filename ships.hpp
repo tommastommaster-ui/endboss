@@ -13,6 +13,7 @@ protected:
     int size;
     int hp;
     int damage;
+    int damageSpecial = 0;
     std::string special;
 
 public:
@@ -45,9 +46,18 @@ public:
         return damage;
     }
 
+    virtual int getDamageSpecial()
+    {
+        return damageSpecial;
+    }
+
     int takeDamage(int dam)
     {
         return hp -= dam;
+    }
+    virtual bool specialAttack(int randomNum)
+    {
+        return false;
     }
 };
 
@@ -56,6 +66,19 @@ class Jäger : public Ship
 public:
     Jäger(int s = 4, int h = 75, int d = 30, std::string name = "Jäger") : Ship(s,h,d, name)
     { }
+    bool specialAttack(int randomNum) override 
+    {
+        if(randomNum > 8)
+        {
+            return true;
+        }
+        return false;
+    }
+    int getDamageSpecial() override
+    {
+        damageSpecial = 60;
+        return damageSpecial;
+    }
 
 };
 
