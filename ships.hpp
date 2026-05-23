@@ -15,7 +15,7 @@ protected:
     std::string special;
 
 public:
-    Ship(int s = 0, int h = 0, int d = 0, std::string name = "parent");
+    Ship(int s, int h, int d, std::string name);
     std::string getInfo();
     int gethp();
     int getSize();

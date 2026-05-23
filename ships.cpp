@@ -1,6 +1,6 @@
 #include "ships.hpp"
 
-Ship::Ship(int s = 0, int h = 0, int d = 0, std::string name = "parent")
+Ship::Ship(int s, int h, int d, std::string name)
 {
     size = s;
     hp = h;
