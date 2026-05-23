@@ -65,7 +65,7 @@ void Fleet::print()
         return;
     }
     for (int i = 0; i < getShips().size(); i++)
-        std::cout << i + 1 << " " << getShips()[i]->getInfo() << " HP: " << getShips()[i]->gethp() << std::endl;
+        std::cout << i << " " << getShips()[i]->getInfo() << " HP: " << getShips()[i]->gethp() << std::endl;
 
     std::cout << "\n"
               << std::endl;

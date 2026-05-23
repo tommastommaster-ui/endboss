@@ -12,79 +12,25 @@ protected:
     int size;
     int hp;
     int damage;
-    int damageSpecial = 0;
     std::string special;
 
 public:
-    Ship(int s = 0, int h = 0, int d = 0, std::string name = "parent")
-    {
-        size = s;
-        hp = h;
-        damage = d;
-        shipName = name;
-
-        // std::cout << "size:" << size << " damage" << damage << " hp" << hp << std::endl;
-    }
-    std::string getInfo()
-    {
-        return shipName;
-    }
-
-    int gethp()
-    {
-        return hp;
-    }
-
-    int getSize()
-    {
-        return size;
-    }
-
-    virtual int getDamage(int randomNum)
-    {
-        return damage;
-    }
-
-    virtual int getDamageSpecial()
-    {
-        return damageSpecial;
-    }
-
-    virtual int takeDamage(int dam)
-    {
-        return hp -= dam;
-    }
-
-    virtual bool extraAttack()
-    {
-        return false;
-    }
-
-    virtual int getHitBonus(int size)
-    {
-        return size;
-    }
+    Ship(int s = 0, int h = 0, int d = 0, std::string name = "parent");
+    std::string getInfo();
+    int gethp();
+    int getSize();
+    virtual int getDamage(int randomNum);
+    virtual int takeDamage(int dam);
+    virtual bool extraAttack();
+    virtual int getHitBonus(int size);
 };
 
 class Jäger : public Ship
 {
 public:
-    Jäger(int s = 4, int h = 75, int d = 30, std::string name = "Jäger") : Ship(s, h, d, name)
-    {
-    }
+    Jäger(int s = 4, int h = 75, int d = 30, std::string name = "Jäger") : Ship(s, h, d, name);
 
-    int getDamage(int randomNum) override
-    {
-        if (randomNum >= 9)
-        {
-            std::cout << "Mega Hit!!!" << std::endl;
-            return damage * 2;
-        }
-        else
-        {
-            return damage;
-        }
-    }
+    int getDamage(int randomNum) override;
 };
 
 class Kreuzer : public Ship
@@ -112,7 +58,7 @@ public:
         int randomNum = rand() % 3 + 1;
         if (randomNum == 1)
         {
-            int newSize = size-2;
+            int newSize = size - 2;
             std::cout << "Size reduction " << size << " : " << newSize << std::endl;
             return size - 2;
         }

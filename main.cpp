@@ -27,8 +27,8 @@ int main()
     // std::cout << SizeA << std::endl;
     // std::cout << a.getShips()[0]->getInfo() << std::endl;
     bool switchFleet = false;
-    int fleetAShip = 0;
-    int fleetBShip = 0;
+    int fleetAShip = 1;
+    int fleetBShip = 1;
 
     int fleetTmpA = 0;
 
@@ -36,18 +36,20 @@ int main()
     {
 
         int randomNum = rand() % 10 + 1;
+        //std::cout << "debug 1"<< fleetAShip << "A " << fleetBShip << "B" << std::endl;
 
-        auto &attacker = switchFleet ? a.getShips()[fleetAShip] : b.getShips()[fleetBShip];
-        auto &target = switchFleet ? b.getShips()[fleetBShip] : a.getShips()[fleetAShip];
+        auto &attacker = switchFleet ? b.getShips()[fleetBShip] : a.getShips()[fleetAShip];
+        auto &target = switchFleet ? a.getShips()[fleetAShip] : b.getShips()[fleetBShip];
+        //std::cout << "debug 2"<< std::endl;
 
-        std::cout << "ATTACKING -> Fleet " << (switchFleet ? "A" : "B") << " Ship: " << (switchFleet ? fleetAShip + 1 : fleetBShip + 1) << " " << attacker->getInfo() << " Attacking Fleet " << (switchFleet ? "B" : "A") << " Ship: " << (switchFleet ? fleetBShip + 1 : fleetAShip + 1) << " " << target->getInfo() << std::endl;
+        std::cout << "ATTACKING -> Fleet " << (switchFleet ? "A" : "B") << " Ship: " << (switchFleet ? fleetAShip : fleetBShip) << " " << attacker->getInfo() << " Attacking Fleet " << (switchFleet ? "B" : "A") << " Ship: " << (switchFleet ? fleetBShip : fleetAShip ) << " " << target->getInfo() << std::endl;
         std::cout << "Random Number: " << randomNum << std::endl;
         int targetSize = target->getSize();
         targetSize = attacker->getHitBonus(targetSize);
         if (randomNum >= targetSize)
         {
             int dmg = attacker->getDamage(randomNum);
-            attacker->takeDamage(dmg);
+            target->takeDamage(dmg);
             std::cout << "Hit!!!" << std::endl;
             randomNum = rand() % 10 + 1;
             if (attacker->extraAttack())
@@ -81,12 +83,12 @@ int main()
         a.print();
         b.print();
 
-        int RealTimeSizeA = a.getShips().size();
-        int RealTimeSizeB = b.getShips().size();
+        int RealTimeSizeA = a.getShips().size() -1;
+        int RealTimeSizeB = b.getShips().size() -1;
 
         int &currentFleet = switchFleet ? fleetAShip : fleetBShip;
 
-        if (currentFleet >= (switchFleet ? RealTimeSizeA - 1 : RealTimeSizeB - 1))
+        if (currentFleet >= (switchFleet ? RealTimeSizeA -1 : RealTimeSizeB -1))
         {
             currentFleet = 0;
         }
@@ -94,6 +96,7 @@ int main()
         {
             currentFleet++;
         }
+        //std::cout << "debugbefore: " << RealTimeSizeA << std::endl;
 
         switchFleet = !switchFleet;
 
