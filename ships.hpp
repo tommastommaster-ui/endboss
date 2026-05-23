@@ -28,8 +28,8 @@ public:
 class Jäger : public Ship
 {
 public:
-    Jäger(int s = 4, int h = 75, int d = 30, std::string name = "Jäger") : Ship(s, h, d, name);
-
+    Jäger(int s = 4, int h = 75, int d = 30, std::string name = "Jäger") : Ship(s, h, d, name)
+    {}
     int getDamage(int randomNum) override;
 };
 
@@ -37,13 +37,8 @@ class Kreuzer : public Ship
 {
 public:
     Kreuzer(int s = 6, int h = 150, int d = 50, std::string name = "Kreuzer") : Ship(s, h, d, name)
-    {
-    }
-
-    bool extraAttack() override
-    {
-        return true;
-    }
+    {}
+    bool extraAttack() override;
 };
 
 class Zerstörer : public Ship
@@ -53,18 +48,5 @@ public:
     {
     }
 
-    int getHitBonus(int size) override
-    {
-        int randomNum = rand() % 3 + 1;
-        if (randomNum == 1)
-        {
-            int newSize = size - 2;
-            std::cout << "Size reduction " << size << " : " << newSize << std::endl;
-            return size - 2;
-        }
-        else
-        {
-            return size;
-        }
-    }
+    int getHitBonus(int size) override;
 };
