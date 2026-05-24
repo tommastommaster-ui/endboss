@@ -23,6 +23,7 @@ public:
     int getSumJäger();
     int getSumKreuzer();
     int getSumZerstöerer();
+    int checkInput();
     void getInput();
     void checkDelete();
     void setShips();

@@ -12,7 +12,6 @@ protected:
     int size;
     int hp;
     int damage;
-    std::string special;
 
 public:
     Ship(int s, int h, int d, std::string name);
