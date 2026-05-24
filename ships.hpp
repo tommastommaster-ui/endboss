@@ -27,25 +27,21 @@ public:
 class Jäger : public Ship
 {
 public:
-    Jäger(int s = 4, int h = 75, int d = 30, std::string name = "Jäger") : Ship(s, h, d, name)
-    {}
+    Jäger() : Ship(4, 75, 30, "Jäger"){}
     int getDamage(int randomNum) override;
 };
 
 class Kreuzer : public Ship
 {
 public:
-    Kreuzer(int s = 6, int h = 150, int d = 50, std::string name = "Kreuzer") : Ship(s, h, d, name)
-    {}
+    Kreuzer() : Ship(6, 150, 50, "Kreuzer"){}
     bool extraAttack() override;
 };
 
 class Zerstörer : public Ship
 {
 public:
-    Zerstörer(int s = 8, int h = 250, int d = 60, std::string name = "Zerstörer") : Ship(s, h, d, name)
-    {
-    }
+    Zerstörer() : Ship(8, 250, 60, "Zerstörer"){}
 
     int getHitBonus(int size) override;
 };
