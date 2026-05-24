@@ -18,7 +18,6 @@ void Fleet::getInput()
         std::cout << "How many Zerstörer" << std::endl;
         std::cin >> zerstörer;
         std::cout << "How many Kreuzer" << std::endl;
-
         std::cin >> kreuzer;
     } while (jäger + zerstörer + kreuzer > 10 || jäger + zerstörer + kreuzer < 1);
 }
