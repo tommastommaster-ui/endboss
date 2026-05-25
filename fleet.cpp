@@ -22,23 +22,19 @@ void Fleet::getInput()
     } while (jäger + zerstörer + kreuzer > 10 || jäger + zerstörer + kreuzer < 1);
 }
 
-void Fleet::setShips(bool oponent)
+void Fleet::setShips()
 {
-    int posX = oponent ? 9 : 0;
-    
     for (int i = 0; i < jäger; ++i)
     {
-        ships.push_back(std::make_unique<Jäger>(posX, i));
+        ships.push_back(std::make_unique<Jäger>());
     }
     for (int i = 0; i < zerstörer; ++i)
     {
-        int tmp = getSumJäger();
-        ships.push_back(std::make_unique<Zerstörer>(posX, tmp + i));
+        ships.push_back(std::make_unique<Zerstörer>());
     }
     for (int i = 0; i < kreuzer; ++i)
     {
-        int tmp = getSumJäger() + getSumZerstöerer();
-        ships.push_back(std::make_unique<Kreuzer>(posX, tmp + i));
+        ships.push_back(std::make_unique<Kreuzer>());
     }
 }
 
@@ -68,7 +64,7 @@ void Fleet::print()
         return;
     }
     for (int i = 0; i < getShips().size(); i++)
-        std::cout << i << " " << getShips()[i]->getInfo() << " HP: " << getShips()[i]->gethp() << " Position X: " << getShips()[i]->getX() << "Y: " << getShips()[i]->getY() << std::endl;
+        std::cout << i << " " << getShips()[i]->getInfo() << " HP: " << getShips()[i]->gethp() << std::endl;
 
     std::cout << "\n"
               << std::endl;
