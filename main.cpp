@@ -32,7 +32,7 @@ int main()
     bool switchFleet = false;
     int fleetAShip = 0;
     int fleetBShip = 0;
-
+//
     int fleetTmpA = 0;
 
     while (game)
