@@ -47,6 +47,7 @@ int main()
 
         if (!switchFleet)
         {
+            //if(!isOccupied(attacker->getX() + 1, attacker->getY(), a, b))
             attacker->move(1, 0); // Move right for Fleet A
         }
         else
