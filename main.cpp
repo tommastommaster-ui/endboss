@@ -48,13 +48,22 @@ int main()
         if (!switchFleet)
         {
             //if(!isOccupied(attacker->getX() + 1, attacker->getY(), a, b))
-            attacker->move(1, 0); // Move right for Fleet A
+            if(attacker->getX() > 0 || target->getX() +1 == attacker->getX())
+            {
+                attacker->move(1, 0);
+            }
+             // Move right for Fleet A
         }
         else
         {
-            attacker->move(-1, 0); // Move left for Fleet B
+            
+            if(attacker->getX() > 0 || target->getX() -1 == attacker->getX())
+            {
+                attacker->move(-1, 0);
+            }
+            // Move left for Fleet B
         }
-        std::cout << "ATTACKING -> Fleet " << (switchFleet ? "B" : "A") << " Ship: " << (switchFleet ? fleetAShip : fleetBShip) << " " << attacker->getInfo() << " Attacking Fleet " << (switchFleet ? "A" : "B") << " Ship: " << (switchFleet ? fleetBShip : fleetAShip) << " " << target->getInfo() << std::endl;
+        std::cout << "ATTACKING -> Fleet " << (switchFleet ? "B" : "A") << " Ship: " << (switchFleet ? fleetBShip: fleetAShip) << " " << attacker->getInfo() << " Attacking Fleet " << (switchFleet ? "A" : "B") << " Ship: " << (switchFleet ? fleetAShip : fleetBShip) << " " << target->getInfo() << std::endl;
         std::cout << "Random Number: " << randomNum << std::endl;
         int targetSize = target->getSize();
         targetSize = attacker->getHitBonus(targetSize);
@@ -97,12 +106,12 @@ int main()
 
         map.print(a, b);
 
-        int RealTimeSizeA = a.getShips().size() - 1;
-        int RealTimeSizeB = b.getShips().size() - 1;
+        int RealTimeSizeA = a.getShips().size()-1;
+        int RealTimeSizeB = b.getShips().size()-1;
 
         int &currentFleet = switchFleet ? fleetAShip : fleetBShip;
 
-        if (currentFleet >= (switchFleet ? RealTimeSizeA - 1 : RealTimeSizeB - 1))
+        if (currentFleet >= (switchFleet ? RealTimeSizeA : RealTimeSizeB))
         {
             currentFleet = 0;
         }
@@ -110,7 +119,7 @@ int main()
         {
             currentFleet++;
         }
-        // std::cout << "debugbefore: " << RealTimeSizeA << std::endl;
+         std::cout << "debugbefore: " << RealTimeSizeA <<"B: " << RealTimeSizeB << std::endl;
 
         switchFleet = !switchFleet;
 

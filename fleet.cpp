@@ -44,7 +44,7 @@ int Fleet::checkInput()
             std::cout << "Only numbers";
             continue;
         }
-        std::cout << std::endl;
+
         return wert;
     }
 
