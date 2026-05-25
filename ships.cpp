@@ -1,11 +1,21 @@
 #include "ships.hpp"
 
-Ship::Ship(int s, int h, int d, std::string name)
+Ship::Ship(int s, int h, int d, std::string name, int posX, int posY)
 {
     size = s;
     hp = h;
     damage = d;
     shipName = name;
+    x = posX;
+    y = posY;
+}
+int Ship::getX()
+{
+    return x;
+}
+int Ship::getY()
+{
+    return y;
 }
 std::string Ship::getInfo()
 {
@@ -18,6 +28,11 @@ int Ship::gethp()
 int Ship::getSize()
 {
     return size;
+}
+void Ship::move(int moveX, int moveY)
+{
+    x += moveX;
+    y += moveY;
 }
 
 int Ship::getDamage(int randomNum)

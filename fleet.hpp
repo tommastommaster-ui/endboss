@@ -25,7 +25,8 @@ public:
     int getSumZerstöerer();
     void getInput();
     void checkDelete();
-    void setShips();
+    void setShips(bool oponent);
     void print();
     bool checkEmpty();
+    bool isOccupied(int x, int y, Fleet& a, Fleet& b);
 };

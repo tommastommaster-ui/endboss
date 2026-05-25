@@ -1,5 +1,6 @@
 #include "ships.hpp"
 #include "fleet.hpp"
+#include "map.hpp"
 #include <string>
 #include <vector>
 #include <unistd.h>
@@ -7,6 +8,7 @@
 int main()
 {
     srand(time(0));
+    Map map(10, 9);
     Fleet a("A");
     Fleet b("B");
     bool game = true;
@@ -14,12 +16,13 @@ int main()
     a.getInput();
     b.getInput();
 
-    a.setShips();
-    b.setShips();
+    a.setShips(false);
+    b.setShips(true);
 
     // print
     a.print();
     b.print();
+    map.print(a, b);
 
     int SizeA = a.getShips().size();
     int SizeB = b.getShips().size();
@@ -27,8 +30,8 @@ int main()
     // std::cout << SizeA << std::endl;
     // std::cout << a.getShips()[0]->getInfo() << std::endl;
     bool switchFleet = false;
-    int fleetAShip = 1;
-    int fleetBShip = 1;
+    int fleetAShip = 0;
+    int fleetBShip = 0;
 
     int fleetTmpA = 0;
 
@@ -36,13 +39,21 @@ int main()
     {
 
         int randomNum = rand() % 10 + 1;
-        //std::cout << "debug 1"<< fleetAShip << "A " << fleetBShip << "B" << std::endl;
+        // std::cout << "debug 1"<< fleetAShip << "A " << fleetBShip << "B" << std::endl;
 
         auto &attacker = switchFleet ? b.getShips()[fleetBShip] : a.getShips()[fleetAShip];
         auto &target = switchFleet ? a.getShips()[fleetAShip] : b.getShips()[fleetBShip];
-        //std::cout << "debug 2"<< std::endl;
+        // std::cout << "debug 2"<< std::endl;
 
-        std::cout << "ATTACKING -> Fleet " << (switchFleet ? "A" : "B") << " Ship: " << (switchFleet ? fleetAShip : fleetBShip) << " " << attacker->getInfo() << " Attacking Fleet " << (switchFleet ? "B" : "A") << " Ship: " << (switchFleet ? fleetBShip : fleetAShip ) << " " << target->getInfo() << std::endl;
+        if (!switchFleet)
+        {
+            attacker->move(1, 0); // Move right for Fleet A
+        }
+        else
+        {
+            attacker->move(-1, 0); // Move left for Fleet B
+        }
+        std::cout << "ATTACKING -> Fleet " << (switchFleet ? "B" : "A") << " Ship: " << (switchFleet ? fleetAShip : fleetBShip) << " " << attacker->getInfo() << " Attacking Fleet " << (switchFleet ? "A" : "B") << " Ship: " << (switchFleet ? fleetBShip : fleetAShip) << " " << target->getInfo() << std::endl;
         std::cout << "Random Number: " << randomNum << std::endl;
         int targetSize = target->getSize();
         targetSize = attacker->getHitBonus(targetSize);
@@ -83,12 +94,14 @@ int main()
         a.print();
         b.print();
 
-        int RealTimeSizeA = a.getShips().size() -1;
-        int RealTimeSizeB = b.getShips().size() -1;
+        map.print(a, b);
+
+        int RealTimeSizeA = a.getShips().size() - 1;
+        int RealTimeSizeB = b.getShips().size() - 1;
 
         int &currentFleet = switchFleet ? fleetAShip : fleetBShip;
 
-        if (currentFleet >= (switchFleet ? RealTimeSizeA -1 : RealTimeSizeB -1))
+        if (currentFleet >= (switchFleet ? RealTimeSizeA - 1 : RealTimeSizeB - 1))
         {
             currentFleet = 0;
         }
@@ -96,7 +109,7 @@ int main()
         {
             currentFleet++;
         }
-        //std::cout << "debugbefore: " << RealTimeSizeA << std::endl;
+        // std::cout << "debugbefore: " << RealTimeSizeA << std::endl;
 
         switchFleet = !switchFleet;
 
@@ -119,5 +132,6 @@ int main()
 
     // Heute noch gemacht werden muss wernn schiff 0 hat muss er raus
     // die special attacks
+    //genau anschauen wegen realtime size und so
     return 0;
 }

@@ -13,9 +13,11 @@ protected:
     int hp;
     int damage;
     std::string special;
+    int x;
+    int y;
 
 public:
-    Ship(int s, int h, int d, std::string name);
+    Ship(int s, int h, int d, std::string name, int posX, int posY);
     std::string getInfo();
     int gethp();
     int getSize();
@@ -23,12 +25,15 @@ public:
     virtual int takeDamage(int dam);
     virtual bool extraAttack();
     virtual int getHitBonus(int size);
+    int getX();
+    int getY();
+    void move(int moveX, int moveY);
 };
 
 class Jäger : public Ship
 {
 public:
-    Jäger(int s = 4, int h = 75, int d = 30, std::string name = "Jäger") : Ship(s, h, d, name)
+    Jäger(int posX, int posY) : Ship(4, 75, 30, "Jäger", posX, posY)
     {}
     int getDamage(int randomNum) override;
 };
@@ -36,17 +41,13 @@ public:
 class Kreuzer : public Ship
 {
 public:
-    Kreuzer(int s = 6, int h = 150, int d = 50, std::string name = "Kreuzer") : Ship(s, h, d, name)
-    {}
+    Kreuzer(int posX, int posY) : Ship(6, 150, 50, "Kreuzer", posX, posY){}
     bool extraAttack() override;
 };
 
 class Zerstörer : public Ship
 {
 public:
-    Zerstörer(int s = 8, int h = 250, int d = 60, std::string name = "Zerstörer") : Ship(s, h, d, name)
-    {
-    }
-
+    Zerstörer(int posX, int posY) : Ship(8, 250, 60, "Zerstörer", posX, posY){}
     int getHitBonus(int size) override;
 };
