@@ -14,27 +14,60 @@ void Fleet::getInput()
     {
         std::cout << "Flotte " << name << ": 1-9 Schiffe" << std::endl;
         std::cout << "How many Jäger?" << std::endl;
-        std::cin >> jäger;
+        jäger = checkInput();
         std::cout << "How many Zerstörer" << std::endl;
-        std::cin >> zerstörer;
+        zerstörer = checkInput();
         std::cout << "How many Kreuzer" << std::endl;
-        std::cin >> kreuzer;
-    } while (jäger + zerstörer + kreuzer > 10 || jäger + zerstörer + kreuzer < 1);
+        kreuzer = checkInput();
+        if (jäger + zerstörer + kreuzer > 9 || jäger + zerstörer + kreuzer < 1)
+        {
+            std::cout << "Fleet can't be bigger than 9 and samller than 1!" << std::endl;
+        }
+    } while (jäger + zerstörer + kreuzer > 9 || jäger + zerstörer + kreuzer < 1);
 }
 
-void Fleet::setShips()
+int Fleet::checkInput()
 {
+    while (true)
+    {
+        std::string str;
+        std::cin >> str;
+        if (str.size() >= 2)
+        {
+            std::cout << "Input is only 0-9" << std::endl;
+            continue;
+        }
+        char wert = str[0] - '0';
+        // std::cout << wert;
+        if (wert > 9)
+        {
+            std::cout << "Only numbers";
+            continue;
+        }
+        std::cout << std::endl;
+        return wert;
+    }
+
+    // std::cout << tmp << std::endl;
+}
+
+void Fleet::setShips(bool oponent)
+{
+    int posX = oponent ? 9 : 0;
+    
     for (int i = 0; i < jäger; ++i)
     {
-        ships.push_back(std::make_unique<Jäger>());
+        ships.push_back(std::make_unique<Jäger>(posX, i));
     }
     for (int i = 0; i < zerstörer; ++i)
     {
-        ships.push_back(std::make_unique<Zerstörer>());
+        int tmp = getSumJäger();
+        ships.push_back(std::make_unique<Zerstörer>(posX, tmp + i));
     }
     for (int i = 0; i < kreuzer; ++i)
     {
-        ships.push_back(std::make_unique<Kreuzer>());
+        int tmp = getSumJäger() + getSumZerstöerer();
+        ships.push_back(std::make_unique<Kreuzer>(posX, tmp + i));
     }
 }
 
@@ -64,7 +97,7 @@ void Fleet::print()
         return;
     }
     for (int i = 0; i < getShips().size(); i++)
-        std::cout << i << " " << getShips()[i]->getInfo() << " HP: " << getShips()[i]->gethp() << std::endl;
+        std::cout << i << " " << getShips()[i]->getInfo() << " HP: " << getShips()[i]->gethp() << " Position X: " << getShips()[i]->getX() << "Y: " << getShips()[i]->getY() << std::endl;
 
     std::cout << "\n"
               << std::endl;

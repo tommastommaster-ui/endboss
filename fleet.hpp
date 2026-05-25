@@ -24,6 +24,7 @@ public:
     int getSumKreuzer();
     int getSumZerstöerer();
     void getInput();
+    int checkInput();
     void checkDelete();
     void setShips(bool oponent);
     void print();
