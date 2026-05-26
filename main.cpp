@@ -70,7 +70,7 @@ int main()
         if (randomNum >= targetSize)
         {
             int dmg = attacker->getDamage(randomNum);
-            target->takeDamage(dmg);
+            target->takeDamage(dmg, attacker->getX(), target->getX());
             std::cout << "Hit!!!" << std::endl;
             randomNum = rand() % 10 + 1;
             if (attacker->extraAttack())
@@ -81,7 +81,7 @@ int main()
                     randomNum = rand() % 10 + 1;
                     if (randomNum >= target->getSize())
                     {
-                        target->takeDamage(dmg);
+                        target->takeDamage(dmg, attacker->getX(), target->getX());
                         std::cout << "Extra Attack Times:" << i << " RandomNum: " << randomNum << std::endl;
                         i++;
                     }

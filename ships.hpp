@@ -22,7 +22,7 @@ public:
     int gethp();
     int getSize();
     virtual int getDamage(int randomNum);
-    virtual int takeDamage(int dam);
+    virtual int takeDamage(int dam, int attacker, int target);
     virtual bool extraAttack();
     virtual int getHitBonus(int size);
     int getX();

@@ -40,8 +40,19 @@ int Ship::getDamage(int randomNum)
     return damage;
 }
 
-int Ship::takeDamage(int dam)
+int Ship::takeDamage(int dam, int attacker, int target)
 {
+    int sum = abs(attacker - target);
+
+    if(sum < 11 && sum  >=7)
+    {
+        dam *= 0.5;
+    }
+    if(sum <= 6 && sum  >=4)
+    {
+        dam *= 0.75;
+    }
+    std::cout << dam << std::endl;
     return hp -= dam;
 }
 
