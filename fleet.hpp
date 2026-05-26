@@ -23,11 +23,12 @@ public:
     int getSumJäger();
     int getSumKreuzer();
     int getSumZerstöerer();
+    int searchForTarget(Fleet& enemy);
     void getInput();
     int checkInput();
     void checkDelete();
     void setShips(bool oponent);
     void print();
     bool checkEmpty();
-    bool isOccupied(int x, int y, Fleet& a, Fleet& b);
+
 };

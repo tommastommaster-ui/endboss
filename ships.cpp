@@ -52,7 +52,7 @@ int Ship::takeDamage(int dam, int attacker, int target)
     {
         dam *= 0.75;
     }
-    std::cout << dam << std::endl;
+    std::cout << "Position from: " << sum << " Damage: " << dam << std::endl;
     return hp -= dam;
 }
 

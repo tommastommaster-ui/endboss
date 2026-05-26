@@ -109,14 +109,19 @@ std::string Fleet::getName()
 }
 void Fleet::checkDelete()
 {
-    for (int i = 0; i < ships.size(); i++)
+    for (int i = 0; i < ships.size();)
     {
         if (ships[i]->gethp() <= 0)
         {
             ships.erase(ships.begin() + i);
         }
+        else
+        {
+            ++i;
+        }
     }
 }
+
 
 bool Fleet::checkEmpty()
 {
@@ -126,3 +131,21 @@ bool Fleet::checkEmpty()
     }
     return false;
 }
+
+int Fleet::searchForTarget(Fleet& enemy)
+{
+    auto& enemyShip = enemy.getShips();
+    int hp = 1000;
+    int best = 0;
+    for(int i = 0; i < enemyShip.size(); ++i)
+    {
+        int tmp = enemyShip[i]->gethp();
+        if(tmp < hp)
+        {
+            hp = tmp;
+            best = i;
+        }
+    }
+    return best;
+}
+
