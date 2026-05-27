@@ -17,7 +17,7 @@ int main()
 
     a.setShips(false);
     b.setShips(true);
-    // print
+
     a.print();
     b.print();
     map.print(a, b);
@@ -50,12 +50,8 @@ int main()
 
         int targetShip = switchFleet ? b.searchForTarget(a) : a.searchForTarget(b);
         auto &target = switchFleet ? a.getShips()[targetShip] : b.getShips()[targetShip];
-        // std::cout << "debug 2"<< std::endl;
-
-        // if(!isOccupied(attacker->getX() + 1, attacker->getY(), a, b))
 
         map.move(*attacker, *target, a, b);
-        // std::cout << "debug 3"<< std::endl;
 
         // Attack
         std::cout << "ATTACKING -> Fleet " << (switchFleet ? "B" : "A") << " Ship: " << (switchFleet ? fleetBShip : fleetAShip) << " " << attacker->getInfo() << " Attacking Fleet " << (switchFleet ? "A" : "B") << " Ship: " << (switchFleet ? fleetAShip : fleetBShip) << " " << target->getInfo() << std::endl;
@@ -67,14 +63,14 @@ int main()
             int dmg = attacker->getDamage(randomNum); // plus jäger special;
             target->takeDamage(dmg, attacker->getX(), target->getX());
             std::cout << "Hit!!!" << std::endl;
-            randomNum = rand() % 10 + 1;
+            randomNum = map.rollDice();
             if (attacker->extraAttack())
             {
                 int i = 1;
                 int tmpDmg = dmg;
                 while (true)
                 {
-                    randomNum = rand() % 10 + 1;
+                    randomNum = map.rollDice();
                     if (randomNum >= target->getSize())
                     {
                         target->takeDamage(dmg, attacker->getX(), target->getX());
@@ -102,13 +98,6 @@ int main()
         b.print();
 
         map.print(a, b);
-
-        // change attacker oponent
-
-        // std::cout << "debugbefore: " << RealTimeSizeA << "B: " << RealTimeSizeB << std::endl;
-
-        // check win
-
 
         if(a.checkEmpty())
         {
