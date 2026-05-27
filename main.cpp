@@ -22,8 +22,6 @@ int main()
     b.print();
     map.print(a, b);
 
-    int SizeA = a.getShips().size();
-    int SizeB = b.getShips().size();
     bool game = true;
     bool switchFleet = false;
     int fleetAShip = 0;
@@ -61,7 +59,7 @@ int main()
         if (randomNum >= targetSize)
         {
             int dmg = attacker->getDamage(randomNum); // plus jäger special;
-            target->takeDamage(dmg, attacker->getX(), target->getX());
+            target->takeDamage(dmg, attacker->getX(), attacker->getY(), target->getX(), target->getY());
             std::cout << "Hit!!!" << std::endl;
             randomNum = map.rollDice();
             if (attacker->extraAttack())
@@ -73,7 +71,7 @@ int main()
                     randomNum = map.rollDice();
                     if (randomNum >= target->getSize())
                     {
-                        target->takeDamage(dmg, attacker->getX(), target->getX());
+                        target->takeDamage(dmg, attacker->getX(), attacker->getY(), target->getX(), target->getY());
                         tmpDmg += dmg;
                         std::cout << "Extra Attack Times:" << i << " RandomNum: " << randomNum << "Total Damage: " << tmpDmg << std::endl;
                         i++;

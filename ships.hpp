@@ -12,22 +12,22 @@ protected:
     int size;
     int hp;
     int damage;
-    std::string special;
     int x;
     int y;
 
 public:
     Ship(int s, int h, int d, std::string name, int posX, int posY);
     std::string getInfo();
-    int gethp();
-    int getSize();
+    int gethp() const;
+    int getSize() const;
     virtual int getDamage(int randomNum);
-    virtual int takeDamage(int dam, int attacker, int target);
+    void takeDamage(int dam, int attackerX, int attackerY, int targetX, int targetY);
     virtual bool extraAttack();
     virtual int getHitBonus(int size);
-    int getX();
-    int getY();
+    int getX() const;
+    int getY() const;
     void move(int moveX, int moveY);
+    virtual ~Ship() = default;
 };
 
 class Jäger : public Ship

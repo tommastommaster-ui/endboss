@@ -9,11 +9,11 @@ Ship::Ship(int s, int h, int d, std::string name, int posX, int posY)
     x = posX;
     y = posY;
 }
-int Ship::getX()
+int Ship::getX() const
 {
     return x;
 }
-int Ship::getY()
+int Ship::getY() const
 {
     return y;
 }
@@ -21,11 +21,11 @@ std::string Ship::getInfo()
 {
     return shipName;
 }
-int Ship::gethp()
+int Ship::gethp() const
 {
     return hp;
 }
-int Ship::getSize()
+int Ship::getSize() const
 {
     return size;
 }
@@ -40,20 +40,21 @@ int Ship::getDamage(int randomNum)
     return damage;
 }
 
-int Ship::takeDamage(int dam, int attacker, int target)
+void Ship::takeDamage(int dam, int attackerX, int attackerY, int targetX, int targetY) // hier noch y kordinate wichtig
 {
-    int sum = abs(attacker - target);
 
-    if(sum < 11 && sum  >=7)
+    int dist = std::abs(attackerX - targetX) + std::abs(attackerY - targetY);
+
+    if (dist < 11 && dist >= 7)
     {
         dam *= 0.5;
     }
-    if(sum <= 6 && sum  >=4)
+    if (dist <= 6 && dist >= 4)
     {
         dam *= 0.75;
     }
-    std::cout << "Position from: " << sum << " Damage: " << dam << std::endl;
-    return hp -= dam;
+    std::cout << "Position from: " << dist << " Damage: " << dam << std::endl;
+    hp -= dam;
 }
 
 bool Ship::extraAttack()
@@ -64,7 +65,7 @@ int Ship::getHitBonus(int size)
 {
     return size;
 }
-//Jäger
+// Jäger
 int Jäger::getDamage(int randomNum)
 {
     if (randomNum >= 9)
@@ -77,12 +78,12 @@ int Jäger::getDamage(int randomNum)
         return damage;
     }
 }
-//Kreuzer
+// Kreuzer
 bool Kreuzer::extraAttack()
 {
     return true;
 }
-//Zerstörer
+// Zerstörer
 int Zerstörer::getHitBonus(int size)
 {
     int randomNum = rand() % 3 + 1;
@@ -95,5 +96,5 @@ int Zerstörer::getHitBonus(int size)
     else
     {
         return size;
-    } 
+    }
 }

@@ -30,5 +30,4 @@ public:
     void setShips(bool oponent);
     void print();
     bool checkEmpty();
-    bool isOccupied(int x, int y, Fleet& a, Fleet& b);
 };
