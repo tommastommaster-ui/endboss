@@ -11,14 +11,12 @@ int main()
     Map map(10, 9);
     Fleet a("A");
     Fleet b("B");
-    bool game = true;
 
     a.getInput();
     b.getInput();
 
     a.setShips(false);
     b.setShips(true);
-
     // print
     a.print();
     b.print();
@@ -26,25 +24,24 @@ int main()
 
     int SizeA = a.getShips().size();
     int SizeB = b.getShips().size();
-
-    // std::cout << SizeA << std::endl;
-    // std::cout << a.getShips()[0]->getInfo() << std::endl;
+    bool game = true;
     bool switchFleet = false;
     int fleetAShip = 0;
     int fleetBShip = 0;
-    //
-    int fleetTmpA = 0;
 
     while (game)
     {
 
         int randomNum = rand() % 10 + 1;
-        // std::cout << "debug 1"<< fleetAShip << "A " << fleetBShip << "B" << std::endl;
 
         if (fleetAShip >= a.getShips().size())
+        {
             fleetAShip = 0;
+        }
         if (fleetBShip >= b.getShips().size())
+        {
             fleetBShip = 0;
+        }
 
         // HIER ÜBERARBEITEN
 
@@ -53,12 +50,12 @@ int main()
 
         int targetShip = switchFleet ? b.searchForTarget(a) : a.searchForTarget(b);
         auto &target = switchFleet ? a.getShips()[targetShip] : b.getShips()[targetShip];
-         std::cout << "debug 2"<< std::endl;
+        // std::cout << "debug 2"<< std::endl;
 
         // if(!isOccupied(attacker->getX() + 1, attacker->getY(), a, b))
 
         map.move(*attacker, *target, a, b);
-         std::cout << "debug 3"<< std::endl;
+        // std::cout << "debug 3"<< std::endl;
 
         // Attack
         std::cout << "ATTACKING -> Fleet " << (switchFleet ? "B" : "A") << " Ship: " << (switchFleet ? fleetBShip : fleetAShip) << " " << attacker->getInfo() << " Attacking Fleet " << (switchFleet ? "A" : "B") << " Ship: " << (switchFleet ? fleetAShip : fleetBShip) << " " << target->getInfo() << std::endl;
@@ -74,13 +71,15 @@ int main()
             if (attacker->extraAttack())
             {
                 int i = 1;
+                int tmpDmg = dmg;
                 while (true)
                 {
                     randomNum = rand() % 10 + 1;
                     if (randomNum >= target->getSize())
                     {
                         target->takeDamage(dmg, attacker->getX(), target->getX());
-                        std::cout << "Extra Attack Times:" << i << " RandomNum: " << randomNum << std::endl;
+                        tmpDmg += dmg;
+                        std::cout << "Extra Attack Times:" << i << " RandomNum: " << randomNum << "Total Damage: " << tmpDmg << std::endl;
                         i++;
                     }
                     else
@@ -109,15 +108,15 @@ int main()
         // std::cout << "debugbefore: " << RealTimeSizeA << "B: " << RealTimeSizeB << std::endl;
 
         // check win
-        if (a.checkEmpty())
+
+
+        if(a.checkEmpty())
         {
-            std::cout << "\nFleet B has won!!!" << std::endl;
-            game = false;
+            break;
         }
-        if (b.checkEmpty())
+        if(b.checkEmpty())
         {
-            std::cout << "\nFleet A has won!!!" << std::endl;
-            game = false;
+            break;
         }
 
         if (switchFleet)
@@ -141,5 +140,7 @@ int main()
     // Heute noch gemacht werden muss wernn schiff 0 hat muss er raus
     // die special attacks
     // genau anschauen wegen realtime size und so
+
+    // schöner machen und lernen wirklich fett lerenen
     return 0;
 }

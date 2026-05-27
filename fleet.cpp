@@ -51,7 +51,7 @@ int Fleet::checkInput()
     // std::cout << tmp << std::endl;
 }
 
-void Fleet::setShips(bool oponent)
+void Fleet::setShips(bool oponent) //left or right
 {
     int posX = oponent ? 9 : 0;
     
@@ -93,7 +93,7 @@ void Fleet::print()
     std::cout << "Fleet " << name << " Jäger " << getSumJäger() << " Zerstörer " << getSumZerstöerer() << " Kreuzerer " << getSumKreuzer() << std::endl;
     if (getShips().size() == 0)
     {
-        std::cout << "No more Ships" << std::endl;
+        std::cout << "No more Ships" << std::endl; 
         return;
     }
     for (int i = 0; i < getShips().size(); i++)
@@ -115,23 +115,23 @@ void Fleet::checkDelete()
         {
             ships.erase(ships.begin() + i);
         }
-        else
-        {
+        else {
             ++i;
         }
     }
 }
 
-
 bool Fleet::checkEmpty()
 {
     if (ships.size() == 0)
     {
+        std::cout << "\nFleet " << name << " has won!!!" << std::endl;
         return true;
     }
     return false;
-}
 
+
+}
 int Fleet::searchForTarget(Fleet& enemy)
 {
     auto& enemyShip = enemy.getShips();
@@ -148,4 +148,3 @@ int Fleet::searchForTarget(Fleet& enemy)
     }
     return best;
 }
-

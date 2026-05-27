@@ -6,7 +6,7 @@
 #include <memory>
 #include <string>
 
-class Fleet
+class Fleet 
 {
 private:
     std::vector<std::unique_ptr<Ship>> ships;
@@ -30,5 +30,5 @@ public:
     void setShips(bool oponent);
     void print();
     bool checkEmpty();
-
+    bool isOccupied(int x, int y, Fleet& a, Fleet& b);
 };
