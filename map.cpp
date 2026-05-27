@@ -6,7 +6,7 @@ Map::Map(int x, int y)
     width = x;
     height = y;
 }
-int rollDice()
+int Map::rollDice()
 {
     return rand() % 10 + 1;
 }
